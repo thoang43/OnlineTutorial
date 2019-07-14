@@ -2,8 +2,45 @@ This is the text file I use to review all materials I have learned from "Python 
 course.
 This course is 32-hour long, but it has been 1.5 month and I have just finished 60% of the course.
 Personally, it is useful to learn Django and Python, but online learning is so boring. I feel sleepy all the time because I
-have no interation with the course. I tried my best to stick to the course and followed it as much as I can every day.
+have no interaction with the course. I tried my best to stick to the course and followed it as much as I can every day.
 
 "Python and Django Full Stack Web Developer BootCamp" by Jose Partilla
 
+***Front-end***
+This part is not that hard. I just learn to know some basic concepts about html, css, and javascript. It is not the main part of this course. However, it took me a month to finish. I was too lazy. Any idea to make myself less lazy???
+
 --HTML--
+There is not much in HTML section. Basically, with Atom text editor, I just need to type html then Enter, the whole outline of html file will be filled up.
+Some basic tags: <h1>, <a> (this one for links), <p>, <ol>, <ul>
+We can also put images here (Google for more information) 
+One of the most important elements in html is form (maybe because django ultilizes it alot)
+Depends on what type of input, it will show different things (dots for password or submit buttons for submission)
+
+--CSS--
+I personally don't like this part. It is something to do with visual parts of the site like colors, shapes, borders... The basic syntax is type of tag then {whatever you want it to be in here} 
+Use # . for specific id and class in html. There is also more syntax, read the document for more information.
+About the fonts, we can refer it online.
+We can read about this on google if we need, so I don't really want to learn by heart everything in this section. I just know basic concepts.
+
+
+--Bootstrap--
+This thing makes my life easier because I don't need to think much about css. However, things on here are premade, which means if we want to make the site looks exactly what we want, we have to deal with css ourselves. But I am so lazy, using this thing is good enough. As usual, I don't want to learn by heart everything. I just need to know where I can find the information about this bootstrap. Therefore, google about bootstrap then go to their site and find the documentation. No need to download bootstrap I think because we have internet and just need to refer the link.
+
+--Javascript--
+A new language to me.
+I don't work with this much so I can't remember any syntax. However, it looks like python. It is a new language, but the concepts are the same with java or python. So I will just look for documentaion online if I need.
+
+--DOM--
+Document Object Model
+I get what I watched. However, I can't say I totally understand it. It is like grab specific things on frontend and change it.
+It treats html file like a tree and traverse through it. So when we want to change the contents or whatever features of that part of html, we can use DOM and change it.
+I think this part like GUI and EventHandler
+
+--jQuerry--
+I skipped this part because I don't like it (I hate myself). They say this jQuerry makes things easier because the syntax is shorter than Javascript when using DOM. But but but, syntax is easier, but more syntax to learn @@ Please,we need to consider the pros and cons (time vs memory)
+
+
+***Back-end***
+This is the main part of the course. I guess later in life if I work in the CS field, I will work with back-end of softwares or things to do with data, algorithms. I don't like the front-end that much.
+
+--Django Part One--
