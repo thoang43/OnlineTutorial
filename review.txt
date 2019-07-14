@@ -1,0 +1,9 @@
+This is the text file I use to review all materials I have learned from "Python and Django Full Stack Web Developer BootCamp"
+course.
+This course is 32-hour long, but it has been 1.5 month and I have just finished 60% of the course.
+Personally, it is useful to learn Django and Python, but online learning is so boring. I feel sleepy all the time because I
+have no interation with the course. I tried my best to stick to the course and followed it as much as I can every day.
+
+"Python and Django Full Stack Web Developer BootCamp" by Jose Partilla
+
+--HTML--
