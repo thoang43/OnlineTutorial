@@ -43,4 +43,122 @@ I skipped this part because I don't like it (I hate myself). They say this jQuer
 ***Back-end***
 This is the main part of the course. I guess later in life if I work in the CS field, I will work with back-end of softwares or things to do with data, algorithms. I don't like the front-end that much.
 
---Django Part One--
+At this point, I will not go through django part by part like in the tutorial. Therefore, I will list out the steps to create an application using django.
+
+First, set up a virtual environment by using conda. I don't remember the syntax now, but I can easily get it from the documentation. Basically, the virtual environment will make sure the application run with desired packages. For example, in my environment, I can update python from 2 to 3, or have different versions of django which will make error if I use the syntax of the old versions of those packages. Therefore, I need to create an environment containing desired packages to make sure my application running without any conflicts.
+
+--Step 1--: Setup Virtual Environment
+Cmd:
+conda activate myEnv (myEnv is the name of my virtual environment)
+
+--Step 2--: Create project, apps, and necessary files
+Then go to the directory we want to create the project:
+django-admin startproject MySite
+
+After this step, we already create a project, now cd into that project folder:
+django-admin startapp blog 
+
+*Comment: We create an app inside the project. The special thing about app in django is that they can be re-used many times in many different projects.
+
+After you add a new app, go to settings.py and add the name of the app to installed app list.
+
+Inside the app folder, I will add two more python files which are forms.py and urls.py (I will need forms in my application, and urls to views)
+
+Then I run:
+python manage.py migrate (I get it as to establish connection between django and database? or/and confirm the changes we made to the app)
+python manage.py makemigrations blog (this is to update/create new models in database)
+Then run the server:
+python manage.py runserver
+
+Copy and paste the url into browser, we can see the django default page.
+
+***Even though the tutorial told me to add static folder and templates later, but I want to set every up at the beginning, so I will put them here
+-Create static folder inside the app (so later when we use the app in other project, everything goes with this app will move their)
+-Inside static create css folder and js folder
+-In settings.py, add STATIC_ROOT = os.path.join(BASE_DIR,'static')
+-Create templates folder inside the app, then inside templates create blog and registration(blog contains views in the blog app, registration contains login,logout whatever views)
+-Set TEMPLATE_DIR in settings.py, then put TEMPLATE_DIR in the list DIRS in TEMPLATES
+-Add this thing LOGIN_REDIRECT_URL = '/' (after login, bring user to index view)
+
+--Step 3--: Setting up models (which are elements we work with in our application)
+Model should be created first I believe (not all the case) because other things like forms, modelforms views will use it alot
+
+In models.py:
+from django.utils import timezone
+from django.urls import reverse
+
+Models here are created as classes extended from models.Model object
+
+
+class Post(models.Model):
+	author = models.ForeignKey('auth.User')
+	title = models.CharField(max_length=200)
+	text = models.TextField()
+	create_date = models.DateTimeField(default=timezone.now())
+	published_date = models.DateTimeField(blank=True, null = True)
+	//Can be left as blank or null
+
+	def publish(self): //this method is to publish the post
+		self.published_date = timezone.now()
+		self.save() //save this new publish to models in db
+
+	def approve_comments(self):
+		return self.comments.filter(approved_comment=True)//return a list of approved comments
+	
+	def get_absolute_url(self):
+        	return reverse('post_detail',kwargs={'pk':self.pk})  
+//after create the post instance, bring me to post_detail view with the context
+
+	def __str__(self):
+		return self.title
+
+class Comments(models.Model):
+	post = models.ForeignKey('blog.Post',related_name='comments')	
+	//related_name: used in case we want to get all comments in the Post like Post.comments.all()
+	author = models.CharField(max_length=200)
+    	text = models.TextField()
+    	create_date = models.DateTimeField(default = timezone.now())
+	approved_comment = models.BooleanField(default=False)
+
+   	def approve_comments(self):
+       		self.approved_comment = True
+        	self.save()	
+
+	def get_absolute_url(self):
+        	return reverse('post_list')	
+
+    	def __str__(self):
+        	return self.text
+
+
+The get_absolute_url is used when we want the site go to that url after the object is created
+
+--Step 4--: Setting up Forms based on the models we created in previous step
+In forms.py:
+from django import forms
+from blog.models import Post, Comment
+
+class PostForm(forms.ModelForm):
+//Usually, we use modelform because we want what we enter in the form will be transferred into model
+
+	class Meta():
+		model = Post //the model we want to connect form to
+		fields = ('author','title','text') //fields of model we want to manipulate
+	
+		widgets={
+            	'title':forms.TextInput(attrs={'class':'textinputclass'}),
+           	 'text':forms.TextArea(attrs={'class':'editble medium-editor-textarea postcontent'})
+        	}//this dictionary is something to do with css and js files 
+
+class CommentForm(forms.ModelForm):
+    	class Meta():
+        	model = Comment
+       		fields = ('author','text')
+		widgets={
+            	'title':forms.TextInput(attrs={'class':'textinputclass'}),
+           	 'text':forms.TextArea(attrs={'class':'editble medium-editor-textarea'})
+        	}//this dictionary is something to do with css and js files
+
+--Step 5--: Set up URLS, Views, Templates for the site
+
+
