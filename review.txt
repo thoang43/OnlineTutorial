@@ -160,5 +160,54 @@ class CommentForm(forms.ModelForm):
         	}//this dictionary is something to do with css and js files
 
 --Step 5--: Set up URLS, Views, Templates for the site
+In templates/blog, create base.html for later use
+Create about.html, use {% extends 'blog/base.html'%}
+In views.py:
+from django.views.generic import TemplateView (our views can be extended from this class to make things eaiser)
+
+class AboutView(TemplateView):
+	template_name = 'about.html'
+
+in MySite/urls.py, set the path for anything not admin to the urls.py file in blog path('', include('blog.urls')
+
+in blog/urls.py, it should somehow look the same as the urls.py in MySite, but different urls:
+from django.urls import path
+from blog import views
+
+urlpatterns = [
+    path('about/',views.AboutView.as_view(), name='about')
+]
+
+So, basically, we do everything like this again and again: create html file, create view then set url for that view or create view, create html file, then set url
+
+In views.py, import ListView and DetailView from generic (these two were told to be very common in reality...not sure)
+
+In the PostListView class, we want to list all the post out, so we need to set the model of the view which is Post, then we need to import Post from models
+
+
+add this thing in PostListView:
+def get_queryset(self):
+        return Post.objects.filter(publish_date__lte=timezone.now()).order_by('-published_date')
+
+it is like a sql but in python, get all the object of Post, with condition less than or equal(lte) to show in the list view
+
+Create a PostDetailView for Post:
+class PostDetailView(DetailView):
+    model = Post
+
+Set Urls for this detail view. The url depends on which post we choose, so it will change according to the primary key. Thus, in urls.py we add
+path('post/<int:pk>',views.PostDetailView.as_view(),name='post_detail')
+
+Create CreatePostView which extended from CreateView (import like ListView and DetailView)
+from django.contrib.auth.mixins import LoginRequiredMixin
+//We use this instead of login_required from decorators because we use class based view
+//This basically redirect users to login page if they are not logged in
+class CreatePostView(LoginRequiredMixin, CreateView)://require logged in to create post
+    login_url = '/login/' (provide login url)
+    redirect_field_name = 'blog/post_detail.html' (redirect to html page when finish creating)
+    form_class = PostForm (connect to the Form)
+    model = Post
+
+Create UpdateView, DeleteView the same as CreateView and DraftListView the same as PostListView but with different queryset condition
 
 
