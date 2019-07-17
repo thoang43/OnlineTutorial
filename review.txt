@@ -159,7 +159,7 @@ class CommentForm(forms.ModelForm):
            	 'text':forms.TextArea(attrs={'class':'editble medium-editor-textarea'})
         	}//this dictionary is something to do with css and js files
 
---Step 5--: Set up URLS, Views, Templates for the site
+--Step 5--: Set up URLS, Class-Based Views for the site
 In templates/blog, create base.html for later use
 Create about.html, use {% extends 'blog/base.html'%}
 In views.py:
@@ -210,4 +210,37 @@ class CreatePostView(LoginRequiredMixin, CreateView)://require logged in to crea
 
 Create UpdateView, DeleteView the same as CreateView and DraftListView the same as PostListView but with different queryset condition
 
+--Step 6--: Finish the Function-Based Views for the site
+Create post_detail.html, post_list.html, post_form.html, post_draft_list.html, post_confirm_delete.html, comment_form.html in templates/blog
+Create login.html in templates/registration
+
+In views.py:
+
+@login_required (this is from the decorator, to require login to perform this task
+def add_comment_to_post(request, pk): //usually just request, but comments go with specific post, so we need post's primary key
+    post = get_object_or_404(Post,pk=pk) //get the object in Post model which has the pk
+
+    if request.method == 'POST': //after user enters something, we receive a POST back
+        form = CommentForm(request.POST) //form now contains info in the form user entered
+        if form.is_valid(): //if the info they entered is valid
+            comment = form.save(commit=False) //those info will be transferred into model comment
+            comment.post = post //the post which comment belongs to is set to post (with given pk)
+	    comment.save()
+            return redirect('post_detail',pk=post.pk)
+    else:
+        form = CommentForm()
+    return render(request,'blog/comment_form.html',{'form':form})
+
+Then add:
+@login_required
+def comment_approve(request,pk):
+    comment = get_object_or_404(Comment,pk)
+    comment.approve()
+    return redirect('post_detail',pk=comment.post.pk)
+
+The same thing happens with comment_remove, but remember when you remove comment from database, there will be no connection between comment and post, therefore no pk. A solution is that we create a variable post_pk = comment.post.pk before we remove it
+
+With the post_publish, we just need to grab the post with given pk then call publish function
+
+--Step 7--:
 
