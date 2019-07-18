@@ -43,7 +43,8 @@ I skipped this part because I don't like it (I hate myself). They say this jQuer
 ***Back-end***
 This is the main part of the course. I guess later in life if I work in the CS field, I will work with back-end of softwares or things to do with data, algorithms. I don't like the front-end that much.
 
-At this point, I will not go through django part by part like in the tutorial. Therefore, I will list out the steps to create an application using django.
+At this point, I will not go through django part by part like in the tutorial. Therefore, I will list out the steps to create an application using django during watching the blog clone project.
+Again *****Blog CLone PRoject*****
 
 First, set up a virtual environment by using conda. I don't remember the syntax now, but I can easily get it from the documentation. Basically, the virtual environment will make sure the application run with desired packages. For example, in my environment, I can update python from 2 to 3, or have different versions of django which will make error if I use the syntax of the old versions of those packages. Therefore, I need to create an environment containing desired packages to make sure my application running without any conflicts.
 
@@ -242,5 +243,24 @@ The same thing happens with comment_remove, but remember when you remove comment
 
 With the post_publish, we just need to grab the post with given pk then call publish function
 
---Step 7--:
+--Step 7--:Setting up quick authentication system
+In MySite/urls.py:
+from django.contrib.auth import views
+
+Then set the urls for login and logout using views.login and views.logout
+
+Setup login.html, and many other html files. I will skip this part because lots of things to do with personal preference and frustrating steps to find suitable frontend features.
+
+Basically, after finishing all the templates, it is done!
+
+--Step 8--:Run the server and debug
+Before running server, just makemigrations and migrate again to make sure
+At this step, we run server
+python manage.py runserver
+
+Then going through features on the site. There should be a few of error. All we need to do is fix them.
+
+--Step 9--: Optional
+In my case, all the functions were doing well. But the visual part that I follow the tutorial went wrong. No special effects appeared on my site. The site looked ugly I guess. I don't like this frontend manipulating part. I will fix it when I feel comfortable dealing with frontend.
+
 
