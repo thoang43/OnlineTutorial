@@ -264,3 +264,42 @@ Then going through features on the site. There should be a few of error. All we 
 In my case, all the functions were doing well. But the visual part that I follow the tutorial went wrong. No special effects appeared on my site. The site looked ugly I guess. I don't like this frontend manipulating part. I will fix it when I feel comfortable dealing with frontend.
 
 
+*****Social Media CLone PRoject*****
+In this project, I will not follow the tutorial when dealing with frontend (I mean visual effect). Instead, I will do it myself. However, I will follow the models, forms, views of the tutorial.
+
+--Step 1--: Design Structure of the project
+Add Folders such as templates, static(master.css, css and js folder in each application), and set url in settings.py
+Make initial migrations
+
+--Step 2--: Create Base templates/files which can be used later
+Setup html files and urls
+
+--Step 3--: Working with accounts application
+This time, in model we will use django built-in model which is:
+from django.contrib import auth
+# Create your models here.
+class User(auth.models.User, auth.models.PermissionsMixin): //built-in User model
+
+    def __str__():
+        return "@{}".format(self.username)
+
+With the forms, we also use the built-in form:
+from django.contrib.auth import get_user_model //This one refers to currently active User which is the one we created in models.py
+from django.contrib.auth.forms import UserCreationForm
+
+class UserCreateForm(UserCreationForm):
+
+    class Meta:
+        fields = ('username','email','password1','password2')
+        model = get_user_model()
+	
+	def __init__(self,*args,**kwargs):
+            super().__init__(*args,**kwargs)
+            self.fields['username'].label = 'Display Name' //Set the label for those fields
+            self.fields['email'].label = 'Email Address'
+
+Then, set up views, templates, urls for this accounts application
+
+Note: in this project, I was lazy again. So, I will just post things I think they are notable, or needed to be explained.
+
+--Step 4--: Working with Groups and Posts application
