@@ -1,10 +1,13 @@
-{% extends 'groups/groups_base.html' %}
+{% extends 'groups/group_base.html' %}
 {% block pregroup %}
-<h1>{{group.name}}</h1>
-<h2>Member Count: {{group.members.count()}}</h2>
-<div class="content">
+<div class="container">
+  <h1>{{group.name}}</h1>
+  <h2>Member Count: {{group.members.count}}</h2>
+</div>
+
+<div class="content container">
   {% if user in group.members.all %}
-  <a href="{% url 'groups:leave'  slug=group.slug %}"
+  <a href="{% url 'groups:leave' slug=group.slug %}"
   class='btn btn-lg btn-fill btn-warning'><span
   class='glyphicon glyphicon-remove-circle'></span>Leave</a>
   {% else %}
@@ -16,13 +19,15 @@
 {% endblock %}
 
 {% block group_content %}
+
 <div class="col-md-8">
   {% if group.posts.count == 0 %}
-    <h2>No post in this group yet!</h2>
+  <h2>No post in this group yet!</h2>
   {% else %}
     {% for post in group.posts.all %}
       {% include "posts/_post.html"%} <!--Inject content from  _post to this place -->
     {% endfor %}
   {% endif %}
 </div>
+
 {% endblock %}
