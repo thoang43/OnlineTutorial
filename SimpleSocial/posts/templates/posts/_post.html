@@ -14,9 +14,13 @@
     </h5>
     <div class="media-footer">
       {% if user.is_authenticated and post.user == user %}
-      <a href="{% url 'posts:delete' pk=post.pk %}" type='delete' class='btn btn-primary'>
-        Delete
-      </a>
+      
+        {% if 'delete' in request.path %}
+        {% else %}
+          <a href="{% url 'posts:delete' pk=post.pk %}" type='delete' class='btn btn-primary'>
+          Delete
+        </a>
+        {% endif %}
       {% endif %}
     </div>
   </div>
